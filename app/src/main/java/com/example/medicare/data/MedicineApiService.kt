@@ -1,9 +1,10 @@
 package com.example.medicare.data
 
 import com.example.medicare.domain.models.Medicine
+import com.example.medicare.domain.models.MedicineResponse
 import retrofit2.http.GET
 
 interface MedicineApiService {
-    @GET("e3645e3a-16de-479b-a0d8-6170447e1daa")
-    suspend fun getMedicines(): List<Medicine>
+    @GET("a1325c93-b2c6-489e-8d94-c159024b2463")
+    suspend fun getMedicines(): MedicineResponse
 }

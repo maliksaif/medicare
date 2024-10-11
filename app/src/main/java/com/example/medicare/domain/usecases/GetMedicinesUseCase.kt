@@ -9,6 +9,6 @@ class GetMedicinesUseCase @Inject constructor(
     private val apiService: MedicineApiService
 ) : MedicineRepository {
     override suspend fun getMedicines(): List<Medicine> {
-        return apiService.getMedicines()
+        return apiService.getMedicines().medicines
     }
 }
