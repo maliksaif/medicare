@@ -5,6 +5,6 @@ import com.example.medicare.domain.models.MedicineResponse
 import retrofit2.http.GET
 
 interface MedicineApiService {
-    @GET("a1325c93-b2c6-489e-8d94-c159024b2463")
+    @GET("aa2c93a1-046e-4d16-b7a4-a0979cfdc1dd")
     suspend fun getMedicines(): MedicineResponse
 }

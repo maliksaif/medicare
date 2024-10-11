@@ -25,13 +25,14 @@ class HomeViewModel @Inject internal constructor(
     init {
 
         fetchMedicines()
-        
+
     }
 
     private fun fetchMedicines() {
         viewModelScope.launch {
+            homeUiState = homeUiState.copy(isLoading = true)
             val medicines = getMedicineUseCase.getMedicines()
-            homeUiState = homeUiState.copy(medicineList = medicines)
+            homeUiState = homeUiState.copy(isLoading = false,medicineList = medicines)
         }
     }
 

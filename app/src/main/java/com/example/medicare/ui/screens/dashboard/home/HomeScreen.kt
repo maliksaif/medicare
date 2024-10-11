@@ -18,12 +18,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.medicare.domain.models.Medicine
 import com.example.medicare.ui.common.AddSpacer
+import com.example.medicare.ui.navigationgraph.Navigation
+import com.example.medicare.ui.screens.dashboard.home.HomeEvent.OnMedicineSelected
 
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(),username : String) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel = hiltViewModel(),
+    username: String
+) {
 
     viewModel.setUsername(username)
 
@@ -33,39 +40,43 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel(),username : String) {
             .padding(16.dp)
     ) {
 
+        LoadingScreen(viewModel.homeUiState.isLoading)
         GreetUser(viewModel.homeUiState.greetingsMessage)
-        ShowMedicines(viewModel)
+        ShowMedicines(navController, viewModel)
     }
 }
 
 @Composable
-fun LoadingScreen(showLoading : Boolean){
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
+fun LoadingScreen(showLoading: Boolean) {
+    if (showLoading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
     }
+
 }
 
 @Composable
 fun GreetUser(greetings: String) {
     Text(
         greetings,
-        style = MaterialTheme.typography.bodyMedium
+        style = MaterialTheme.typography.bodyLarge
     )
     AddSpacer(height = 16.dp)
 }
 
 @Composable
-fun ShowMedicines(viewModel: HomeViewModel) {
+fun ShowMedicines(navController: NavController, viewModel: HomeViewModel) {
     LazyColumn {
         items(
             items = viewModel.homeUiState.medicineList,
             key = { it.id }) { medicine ->
             MedicineCard(medicine) {
-                viewModel.onEvent(HomeEvent.OnMedicineSelected(medicine))
+                viewModel.onEvent(OnMedicineSelected(medicine))
+                navController.navigate(Navigation.navigateToMedicineDetails(medicine.id))
             }
         }
     }

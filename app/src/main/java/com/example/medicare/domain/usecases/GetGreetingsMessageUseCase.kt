@@ -15,13 +15,12 @@ class GetGreetingsMessageUseCase @Inject constructor() {
             Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         }
         return when (currentHour) {
-            in 0..4 -> "Good Night"
             in 5..11 -> "Good Morning"
-            in 12..17 -> "Good Afternoon"
-            in 18..23 -> "Good Evening"
-            else -> "-" // This should never happen added this for safety
+            in 12..16 -> "Good Afternoon"
+            in 17..18 -> "Good Evening"
+            in 19..23, in 0..4 -> "Good Night"
+            else -> "-"  // Safety Check Should not occur!!
         }
     }
-
 }
 

@@ -5,5 +5,6 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class MyApp : Application() {
-    // Your application setup
+    // Application setup like Firebase Initializations can be done here
+    // App Center Initializations can be done here
 }

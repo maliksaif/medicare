@@ -12,38 +12,37 @@ import com.example.medicare.ui.screens.auth.login.LoginScreen
 import com.example.medicare.ui.screens.auth.login.LoginViewModel
 import com.example.medicare.ui.screens.dashboard.home.HomeScreen
 import com.example.medicare.ui.screens.dashboard.home.HomeViewModel
+import com.example.medicare.ui.screens.dashboard.medicinedetails.MedicineDetailsScreen
+import com.example.medicare.ui.screens.dashboard.medicinedetails.MedicineDetailsViewModel
+import com.example.medicare.ui.utilities.Constants
 
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    startDestination: String = NavigationItem.Login.route,
+    startDestination: String = Screen.LOGIN.route,
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
-        composable(NavigationItem.Login.route) {
+        composable(Screen.LOGIN.route) {
             val loginViewModel: LoginViewModel = hiltViewModel()
             LoginScreen(navController = navController, viewModel = loginViewModel)
         }
         composable(
-            route = "home/{username}",
-            arguments = listOf(navArgument("username") { type = NavType.StringType })
+            route = Screen.HOME.route,
+            arguments = listOf(navArgument(Constants.USERNAME) { type = NavType.StringType })
         ) { backStackEntry ->
-            val username = backStackEntry.arguments?.getString("username") ?: ""
-            val homeViewModel: HomeViewModel = hiltViewModel()
-
-            HomeScreen(viewModel = homeViewModel,username = username)
+            val username = backStackEntry.arguments?.getString(Constants.USERNAME) ?: ""
+            val homeViewModel = hiltViewModel<HomeViewModel>()
+            HomeScreen(navController,viewModel = homeViewModel, username = username)
         }
 
         composable(
-            route = "medicineDetail/{medicineId}",
-            arguments = listOf(navArgument("medicineId") { type = NavType.StringType })
+            route = Screen.MEDICINE_DETAILS.route,
+            arguments = listOf(navArgument(Constants.MEDICINE_ID) { type = NavType.StringType })
         ) { backStackEntry ->
-            val medicineId = backStackEntry.arguments?.getString("medicineId")
-//            val viewModel = hiltViewModel<HomeViewModel>()
-//            val medicine = viewModel.getMedicineById(medicineId)
-//            if (medicine != null) {
-//                MedicineDetailsScreen(medicine = medicine)
-//            }
+            val medicineId = backStackEntry.arguments?.getString(Constants.MEDICINE_ID)
+            val viewModel = hiltViewModel<MedicineDetailsViewModel>()
+            MedicineDetailsScreen(viewModel = viewModel, medicineId = medicineId ?: "")
         }
     }
 }

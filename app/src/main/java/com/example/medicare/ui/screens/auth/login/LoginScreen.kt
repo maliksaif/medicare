@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.medicare.ui.common.AddSpacer
+import com.example.medicare.ui.navigationgraph.Navigation
 import com.example.medicare.ui.navigationgraph.NavigationItem
 import com.example.medicare.ui.screens.auth.login.LoginEvent.LoginClicked
 import com.example.medicare.ui.screens.auth.login.LoginEvent.PasswordChanged
@@ -98,7 +99,10 @@ fun ShowPassword(viewModel: LoginViewModel) {
 @Composable
 fun ShowButton(viewModel: LoginViewModel, navController: NavController) {
     Button(modifier = Modifier.fillMaxWidth(),
-        onClick = { viewModel.onEvent(event = LoginClicked); navController.navigate(NavigationItem.Home.route + "/" + viewModel.loginUiState.username) }) {
+        onClick = {
+            viewModel.onEvent(event = LoginClicked);
+            navController.navigate(Navigation.navigateToHome(viewModel.loginUiState.username))
+        }) {
         Text("Login")
     }
 }
