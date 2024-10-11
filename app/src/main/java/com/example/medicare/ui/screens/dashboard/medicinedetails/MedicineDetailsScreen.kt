@@ -1,4 +1,4 @@
-package com.example.medicare.ui.screens.dashboard
+package com.example.medicare.ui.screens.dashboard.medicinedetails
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

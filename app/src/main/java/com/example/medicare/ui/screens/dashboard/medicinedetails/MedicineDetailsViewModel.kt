@@ -1,4 +1,4 @@
-package com.example.medicare.ui.viewmodels
+package com.example.medicare.ui.screens.dashboard.medicinedetails
 
 import androidx.lifecycle.ViewModel
 

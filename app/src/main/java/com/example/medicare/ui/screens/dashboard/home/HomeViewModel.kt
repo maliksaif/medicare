@@ -1,4 +1,4 @@
-package com.example.medicare.ui.viewmodels
+package com.example.medicare.ui.screens.dashboard.home
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

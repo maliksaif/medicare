@@ -1,0 +1,10 @@
+package com.example.medicare.ui.screens.dashboard.home
+
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+
+
+@Composable
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel) {
+
+}
