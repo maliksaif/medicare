@@ -1,6 +1,8 @@
 package com.example.medicare.ui.navigationgraph
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -19,11 +21,19 @@ fun NavGraph(
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
         composable(NavigationItem.Login.route) {
-            LoginScreen(navController = navController, viewModel = LoginViewModel())
+            val loginViewModel: LoginViewModel = hiltViewModel()
+            LoginScreen(navController = navController, viewModel = loginViewModel)
         }
-        composable(NavigationItem.Home.route) {
-            HomeScreen(navController = navController, viewModel = HomeViewModel())
+        composable(
+            route = "home/{username}",
+            arguments = listOf(navArgument("username") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val username = backStackEntry.arguments?.getString("username") ?: ""
+            val homeViewModel: HomeViewModel = hiltViewModel()
+
+            HomeScreen(viewModel = homeViewModel,username = username)
         }
+
         composable(
             route = "medicineDetail/{medicineId}",
             arguments = listOf(navArgument("medicineId") { type = NavType.StringType })

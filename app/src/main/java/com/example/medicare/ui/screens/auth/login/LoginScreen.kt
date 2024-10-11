@@ -24,16 +24,19 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.example.medicare.ui.common.AddSpacer
 import com.example.medicare.ui.navigationgraph.NavigationItem
 import com.example.medicare.ui.screens.auth.login.LoginEvent.LoginClicked
 import com.example.medicare.ui.screens.auth.login.LoginEvent.PasswordChanged
 import com.example.medicare.ui.screens.auth.login.LoginEvent.UsernameChanged
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
-
+fun LoginScreen(navController: NavController, viewModel: LoginViewModel = hiltViewModel()) {
 
     Column(
         modifier = Modifier
@@ -53,7 +56,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
 fun ShowUsername(viewModel: LoginViewModel) {
 
     TextField(
-        value = viewModel.formState.username,
+        value = viewModel.loginUiState.username,
         onValueChange = { viewModel.onEvent(event = UsernameChanged(it)) },
         label = { Text("Username") },
         modifier = Modifier.fillMaxWidth(),
@@ -66,22 +69,22 @@ fun ShowUsername(viewModel: LoginViewModel) {
 @Composable
 fun ShowPassword(viewModel: LoginViewModel) {
 
-    TextField(value = viewModel.formState.password,
+    TextField(value = viewModel.loginUiState.password,
         onValueChange = { viewModel.onEvent(event = PasswordChanged(it)) },
         label = { Text("Password") },
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
-        visualTransformation = if (viewModel.formState.isVisiblePassword) VisualTransformation.None else PasswordVisualTransformation(),
+        visualTransformation = if (viewModel.loginUiState.isVisiblePassword) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         trailingIcon = {
-            val image = if (viewModel.formState.isVisiblePassword) Icons.Filled.Visibility
+            val image = if (viewModel.loginUiState.isVisiblePassword) Icons.Filled.Visibility
             else Icons.Filled.VisibilityOff
             val description =
-                if (viewModel.formState.isVisiblePassword) "Hide password" else "Show password"
+                if (viewModel.loginUiState.isVisiblePassword) "Hide password" else "Show password"
             IconButton(onClick = {
                 viewModel.onEvent(
                     LoginEvent.VisiblePassword(
-                        isVisiblePassword = !viewModel.formState.isVisiblePassword
+                        isVisiblePassword = !viewModel.loginUiState.isVisiblePassword
                     )
                 )
             }) {
@@ -95,12 +98,7 @@ fun ShowPassword(viewModel: LoginViewModel) {
 @Composable
 fun ShowButton(viewModel: LoginViewModel, navController: NavController) {
     Button(modifier = Modifier.fillMaxWidth(),
-        onClick = { viewModel.onEvent(event = LoginClicked); navController.navigate(NavigationItem.Home.route) }) {
+        onClick = { viewModel.onEvent(event = LoginClicked); navController.navigate(NavigationItem.Home.route + "/" + viewModel.loginUiState.username) }) {
         Text("Login")
     }
-}
-
-@Composable
-fun AddSpacer(height: Dp) {
-    Spacer(modifier = Modifier.height(height))
 }
