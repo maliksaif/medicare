@@ -11,12 +11,11 @@ import com.example.medicare.domain.models.Medicine
 import com.example.medicare.ui.common.AddSpacer
 
 @Composable
-fun MedicineDetailsScreen(viewModel: MedicineDetailsViewModel, medicineId: String) {
+fun MedicineDetailsScreen(viewModel: MedicineDetailsViewModel, medicine: Medicine) {
 
-    viewModel.setMedicineId(medicineId)
-    viewModel.medicineDetailsState.medicine?.let {
-        MedicineDetails(it)
-    }
+    viewModel.setMedicine(medicine)
+    viewModel.medicineDetailsState.medicine?.let { MedicineDetails(it) }
+
 }
 
 @Composable

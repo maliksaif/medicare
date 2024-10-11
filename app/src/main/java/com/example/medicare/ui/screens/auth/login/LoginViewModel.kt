@@ -22,17 +22,23 @@ class LoginViewModel @Inject constructor() : ViewModel() {
             is UsernameChanged -> {
                 loginUiState = loginUiState.copy(username = event.username)
             }
+
             is PasswordChanged -> {
                 loginUiState = loginUiState.copy(password = event.password)
             }
+
             is VisiblePassword -> loginUiState =
                 loginUiState.copy(isVisiblePassword = event.isVisiblePassword)
 
             LoginClicked -> {
-                // TODO Validate both fields are not empty atleast
+                loginUiState =
+                    loginUiState.copy(validationError = if (!validateFields()) "Please fill both the fields to proceed." else null)
 
             }
         }
     }
+
+    private fun validateFields() =
+        loginUiState.username.isNotEmpty() && loginUiState.password.isNotEmpty()
 
 }

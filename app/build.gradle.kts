@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.kotlin.parcelize)
+
 }
 
 android {
@@ -60,8 +62,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.navigation)
-//    implementation(libs.androidx.room)
-//    implementation(libs.androidx.room.compiler)
+    implementation(libs.androidx.room)
+    annotationProcessor(libs.androidx.room.compiler)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     testImplementation(libs.junit)

@@ -3,7 +3,8 @@ package com.example.medicare.ui.navigationgraph
 enum class Screen(val route: String) {
     LOGIN("login"),
     HOME("home/{username}"),
-    MEDICINE_DETAILS("medicineDetail/{medicineId}");
+    MEDICINE_DETAILS_WITH_ID("medicineDetail/{medicineId}"),
+    MEDICINE_DETAILS("medicineDetail");
 }
 
 object Navigation {
@@ -12,12 +13,7 @@ object Navigation {
     }
 
     fun navigateToMedicineDetails(medicineId: String): String {
-        return Screen.MEDICINE_DETAILS.route.replace("{medicineId}", medicineId.toString())
+        return Screen.MEDICINE_DETAILS.route.replace("{medicineId}", medicineId)
     }
 }
 
-sealed class NavigationItem(val route: String) {
-    data object Login : NavigationItem(Screen.LOGIN.name)
-    data object Home : NavigationItem(Screen.HOME.name)
-    data object MedicineDetails : NavigationItem(Screen.MEDICINE_DETAILS.name)
-}

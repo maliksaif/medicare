@@ -1,11 +1,11 @@
 package com.example.medicare.ui.screens.auth.login
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -19,21 +19,18 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.medicare.ui.common.AddSpacer
 import com.example.medicare.ui.navigationgraph.Navigation
-import com.example.medicare.ui.navigationgraph.NavigationItem
 import com.example.medicare.ui.screens.auth.login.LoginEvent.LoginClicked
 import com.example.medicare.ui.screens.auth.login.LoginEvent.PasswordChanged
 import com.example.medicare.ui.screens.auth.login.LoginEvent.UsernameChanged
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -97,11 +94,21 @@ fun ShowPassword(viewModel: LoginViewModel) {
 }
 
 @Composable
-fun ShowButton(viewModel: LoginViewModel, navController: NavController) {
+fun ShowButton(viewModel: LoginViewModel,
+               navController: NavController,
+               context : Context = LocalContext.current
+) {
     Button(modifier = Modifier.fillMaxWidth(),
         onClick = {
-            viewModel.onEvent(event = LoginClicked);
-            navController.navigate(Navigation.navigateToHome(viewModel.loginUiState.username))
+            viewModel.onEvent(event = LoginClicked)
+
+            // Check if validation is successful before navigating
+            if (viewModel.loginUiState.validationError == null) {
+                navController.navigate(Navigation.navigateToHome(viewModel.loginUiState.username))
+            } else {
+                // Show Toast directly
+                Toast.makeText(context, viewModel.loginUiState.validationError, Toast.LENGTH_SHORT).show()
+            }
         }) {
         Text("Login")
     }

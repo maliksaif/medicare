@@ -1,5 +1,8 @@
 package com.example.medicare.domain.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 
 /*
 *
@@ -14,10 +17,11 @@ data class MedicineResponse(
     val medicines: List<Medicine>
 )
 
+@Parcelize
 data class Medicine(
     val id: String,
     val name: String,
     val dose: String,
     val strength: String,
     val description : String
-)
+) : Parcelable

@@ -2,9 +2,8 @@ package com.example.medicare.ui.screens.auth.login
 
 data class LoginState(
     val username: String = "",
-    val usernameErrorText: String? = null,
     val password: String = "",
-    val passwordErrorText: String? = null,
+    val validationError : String? = "",
     val isVisiblePassword: Boolean = false
 )
 
