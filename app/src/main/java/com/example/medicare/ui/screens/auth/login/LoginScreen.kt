@@ -2,24 +2,33 @@ package com.example.medicare.ui.screens.auth.login
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -32,6 +41,8 @@ import com.example.medicare.ui.screens.auth.login.LoginEvent.LoginClicked
 import com.example.medicare.ui.screens.auth.login.LoginEvent.PasswordChanged
 import com.example.medicare.ui.screens.auth.login.LoginEvent.UsernameChanged
 import com.example.medicare.ui.utilities.Constants
+import com.example.medicare.R
+import com.example.medicare.ui.common.CircleImageView
 
 
 @Composable
@@ -40,13 +51,44 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = hiltVi
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ShowUsername(viewModel = viewModel)
-        ShowPassword(viewModel = viewModel)
-        ShowButton(viewModel = viewModel, navController = navController)
+
+
+        CircleImageView(R.drawable.logo)
+
+        Text(
+            text = "Welcome to Medicare",
+            style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+
+                ShowUsername(viewModel = viewModel)
+                ShowPassword(viewModel = viewModel)
+                ShowButton(viewModel = viewModel, navController = navController)
+
+            }
+        }
 
     }
 }
@@ -63,11 +105,10 @@ fun ShowUsername(viewModel: LoginViewModel) {
                 )
             )
         },
-        label = { Text("Username") },
+        label = { Text(stringResource(R.string.username)) },
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
     )
-    AddSpacer(height = 16.dp)
 
 }
 
@@ -82,7 +123,7 @@ fun ShowPassword(viewModel: LoginViewModel) {
                 )
             )
         },
-        label = { Text("Password") },
+        label = { Text(stringResource(R.string.password)) },
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
         visualTransformation = if (viewModel.loginUiState.isVisiblePassword) VisualTransformation.None else PasswordVisualTransformation(),
@@ -91,7 +132,9 @@ fun ShowPassword(viewModel: LoginViewModel) {
             val image = if (viewModel.loginUiState.isVisiblePassword) Icons.Filled.Visibility
             else Icons.Filled.VisibilityOff
             val description =
-                if (viewModel.loginUiState.isVisiblePassword) "Hide password" else "Show password"
+                if (viewModel.loginUiState.isVisiblePassword) stringResource(R.string.hide_password) else stringResource(
+                    R.string.show_password
+                )
             IconButton(onClick = {
                 viewModel.onEvent(
                     LoginEvent.VisiblePassword(
@@ -120,11 +163,11 @@ fun ShowButton(
             if (viewModel.loginUiState.validationError == null) {
                 navController.navigate(Navigation.navigateToHome(viewModel.loginUiState.username))
             } else {
-                // Show Toast directly
+                // Show Toast
                 Toast.makeText(context, viewModel.loginUiState.validationError, Toast.LENGTH_SHORT)
                     .show()
             }
         }) {
-        Text("Login")
+        Text(stringResource(R.string.login))
     }
 }

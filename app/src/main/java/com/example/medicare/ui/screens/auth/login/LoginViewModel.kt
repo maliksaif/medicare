@@ -1,15 +1,15 @@
 package com.example.medicare.ui.screens.auth.login
 
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
 import com.example.medicare.ui.screens.auth.login.LoginEvent.LoginClicked
 import com.example.medicare.ui.screens.auth.login.LoginEvent.PasswordChanged
 import com.example.medicare.ui.screens.auth.login.LoginEvent.UsernameChanged
 import com.example.medicare.ui.screens.auth.login.LoginEvent.VisiblePassword
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor() : ViewModel() {
