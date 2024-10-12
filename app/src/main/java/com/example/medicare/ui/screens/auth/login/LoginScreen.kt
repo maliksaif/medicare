@@ -2,7 +2,6 @@ package com.example.medicare.ui.screens.auth.login
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,24 +24,22 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.medicare.R
 import com.example.medicare.ui.common.AddSpacer
+import com.example.medicare.ui.common.CircleImageView
 import com.example.medicare.ui.navigationgraph.Navigation
 import com.example.medicare.ui.screens.auth.login.LoginEvent.LoginClicked
 import com.example.medicare.ui.screens.auth.login.LoginEvent.PasswordChanged
 import com.example.medicare.ui.screens.auth.login.LoginEvent.UsernameChanged
 import com.example.medicare.ui.utilities.Constants
-import com.example.medicare.R
-import com.example.medicare.ui.common.CircleImageView
 
 
 @Composable
@@ -51,7 +48,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = hiltVi
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(dimensionResource(R.dimen.spacing_16dp))
             .background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -64,23 +61,23 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = hiltVi
             text = "Welcome to Medicare",
             style = MaterialTheme.typography.headlineLarge,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(bottom = 24.dp)
+            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.spacing_24dp))
         )
 
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                .padding(dimensionResource(R.dimen.spacing_16dp)),
+            elevation = CardDefaults.cardElevation(defaultElevation = dimensionResource(R.dimen.spacing_4dp)),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(dimensionResource(R.dimen.spacing_12dp))
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
+                    .padding(dimensionResource(R.dimen.spacing_24dp)),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_16dp))
             ) {
 
                 ShowUsername(viewModel = viewModel)
@@ -146,7 +143,7 @@ fun ShowPassword(viewModel: LoginViewModel) {
             }
         })
 
-    AddSpacer(height = 24.dp)
+    AddSpacer(height = dimensionResource(R.dimen.spacing_24dp))
 }
 
 @Composable

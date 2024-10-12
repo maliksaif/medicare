@@ -1,6 +1,5 @@
 package com.example.medicare.ui.common
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -17,7 +16,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -41,14 +39,14 @@ fun LoadingScreen(showLoading: Boolean) {
 }
 
 @Composable
-fun CircleImageView(drawable : Int) {
+fun CircleImageView(drawable: Int, size: Dp = 128.dp, stroke: Dp = 1.dp) {
     Image(
         painter = painterResource(drawable),
         contentDescription = "Circle Image",
         contentScale = ContentScale.Crop,
         modifier = Modifier
-            .size(128.dp)
+            .size(size)
             .clip(CircleShape) // clip to the circle shape
-            .border(1.dp, Color.Black, CircleShape)//optional
+            .border(stroke, Color.Black, CircleShape)//optional
     )
 }

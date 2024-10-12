@@ -38,7 +38,7 @@ class LoginViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun validateFields() =
+    fun validateFields() =
         loginUiState.username.isNotEmpty() && loginUiState.password.isNotEmpty()
 
 }

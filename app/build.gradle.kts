@@ -41,6 +41,10 @@ android {
     buildFeatures {
         compose = true
     }
+    sourceSets {
+        getByName("test").java.srcDirs("src/test/java")
+        getByName("main").java.srcDirs("src/main/java")
+    }
 
 }
 
@@ -69,6 +73,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     testImplementation(libs.junit)
+    testImplementation(libs.mockito)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.coroutine.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
