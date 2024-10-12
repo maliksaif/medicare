@@ -1,5 +1,6 @@
 package com.example.medicare.ui.screens.dashboard.home
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.medicare.domain.models.Medicine
 import com.example.medicare.ui.common.AddSpacer
+import com.example.medicare.ui.common.LoadingScreen
 import com.example.medicare.ui.navigationgraph.Navigation
 import com.example.medicare.ui.screens.dashboard.home.HomeEvent.OnMedicineSelected
 
@@ -47,23 +49,10 @@ fun HomeScreen(
 }
 
 @Composable
-fun LoadingScreen(showLoading: Boolean) {
-    if (showLoading) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    }
-
-}
-
-@Composable
 fun GreetUser(greetings: String) {
     Text(
         greetings,
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme.typography.headlineLarge
     )
     AddSpacer(height = 16.dp)
 }
@@ -75,8 +64,9 @@ fun ShowMedicines(navController: NavController, viewModel: HomeViewModel) {
             items = viewModel.homeUiState.medicineList,
             key = { it.id }) { medicine ->
             MedicineCard(medicine) {
+                Log.e("TAG", "ShowMedicines: " + medicine.id + " || " + medicine.name)
                 viewModel.onEvent(OnMedicineSelected(medicine))
-                navController.navigate(Navigation.navigateToMedicineDetails(medicine.id))
+                navController.navigate(Navigation.navigateToMedicineDetails(medicineId = medicine.id))
             }
         }
     }
@@ -92,7 +82,7 @@ fun MedicineCard(medicine: Medicine, onClick: () -> Unit) {
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("Name: ${medicine.name}", style = MaterialTheme.typography.bodyLarge)
+            Text("Name: ${medicine.name}", style = MaterialTheme.typography.labelLarge)
             Text("Dose: ${medicine.dose}")
             Text("Strength: ${medicine.strength}")
         }

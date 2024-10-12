@@ -31,6 +31,7 @@ import com.example.medicare.ui.navigationgraph.Navigation
 import com.example.medicare.ui.screens.auth.login.LoginEvent.LoginClicked
 import com.example.medicare.ui.screens.auth.login.LoginEvent.PasswordChanged
 import com.example.medicare.ui.screens.auth.login.LoginEvent.UsernameChanged
+import com.example.medicare.ui.utilities.Constants
 
 
 @Composable
@@ -55,7 +56,13 @@ fun ShowUsername(viewModel: LoginViewModel) {
 
     TextField(
         value = viewModel.loginUiState.username,
-        onValueChange = { viewModel.onEvent(event = UsernameChanged(it)) },
+        onValueChange = {
+            if (it.length <= Constants.MAX_LENGTH) viewModel.onEvent(
+                event = UsernameChanged(
+                    it
+                )
+            )
+        },
         label = { Text("Username") },
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
@@ -68,7 +75,13 @@ fun ShowUsername(viewModel: LoginViewModel) {
 fun ShowPassword(viewModel: LoginViewModel) {
 
     TextField(value = viewModel.loginUiState.password,
-        onValueChange = { viewModel.onEvent(event = PasswordChanged(it)) },
+        onValueChange = {
+            if (it.length <= Constants.MAX_LENGTH) viewModel.onEvent(
+                event = PasswordChanged(
+                    it
+                )
+            )
+        },
         label = { Text("Password") },
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
@@ -94,9 +107,10 @@ fun ShowPassword(viewModel: LoginViewModel) {
 }
 
 @Composable
-fun ShowButton(viewModel: LoginViewModel,
-               navController: NavController,
-               context : Context = LocalContext.current
+fun ShowButton(
+    viewModel: LoginViewModel,
+    navController: NavController,
+    context: Context = LocalContext.current
 ) {
     Button(modifier = Modifier.fillMaxWidth(),
         onClick = {
@@ -107,7 +121,8 @@ fun ShowButton(viewModel: LoginViewModel,
                 navController.navigate(Navigation.navigateToHome(viewModel.loginUiState.username))
             } else {
                 // Show Toast directly
-                Toast.makeText(context, viewModel.loginUiState.validationError, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, viewModel.loginUiState.validationError, Toast.LENGTH_SHORT)
+                    .show()
             }
         }) {
         Text("Login")

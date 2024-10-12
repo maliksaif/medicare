@@ -1,6 +1,5 @@
 package com.example.medicare.ui.navigationgraph
 
-import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -8,7 +7,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.medicare.domain.models.Medicine
 import com.example.medicare.ui.screens.auth.login.LoginScreen
 import com.example.medicare.ui.screens.auth.login.LoginViewModel
 import com.example.medicare.ui.screens.dashboard.home.HomeScreen
@@ -38,21 +36,17 @@ fun NavGraph(
         }
 
         composable(
-            route = Screen.MEDICINE_DETAILS.route
+            route = Screen.MEDICINE_DETAILS_WITH_ID.route,
+            arguments = listOf(navArgument(Constants.MEDICINE_ID) { type = NavType.StringType})
         ) { backStackEntry ->
-            val medicine = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                backStackEntry.arguments?.getParcelable(Constants.MEDICINE_ID, Medicine::class.java)
-            } else {
-                backStackEntry.arguments?.getParcelable(Constants.MEDICINE)
-            } // Retrieve the medicine object
-            val medicineId = backStackEntry.arguments?.getString(Constants.MEDICINE_ID)
+
+            val medicineId = backStackEntry.arguments?.getString(Constants.MEDICINE_ID) ?: ""
             val viewModel = hiltViewModel<MedicineDetailsViewModel>()
-            if (medicine != null) {
                 MedicineDetailsScreen(
                     viewModel = viewModel,
-                    medicine = medicine
+                    medicineId = medicineId
                 )
-            }
+
             // Can be used when passing the ID and using ROOM DB To Query The Data
 //            MedicineDetailsScreen(viewModel = viewModel, medicineId = medicineId ?: "")
         }

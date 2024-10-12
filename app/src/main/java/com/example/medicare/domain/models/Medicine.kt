@@ -1,6 +1,8 @@
 package com.example.medicare.domain.models
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 
@@ -16,10 +18,10 @@ import kotlinx.parcelize.Parcelize
 data class MedicineResponse(
     val medicines: List<Medicine>
 )
-
+@Entity(tableName = "medicines")
 @Parcelize
 data class Medicine(
-    val id: String,
+    @PrimaryKey val id: String,
     val name: String,
     val dose: String,
     val strength: String,
